@@ -1,0 +1,84 @@
+cmake_minimum_required(VERSION 3.7 FATAL_ERROR)
+project(rtklib VERSION 0.1.0 LANGUAGES C)
+
+#include(CTest)
+#enable_testing()
+
+
+
+#message(${CMAKE_SYSTEM_NAME})
+#set(WIN32, TRUE)
+set(SRC ${PROJECT_SOURCE_DIR}/src)
+set(CPACK_PROJECT_NAME ${PROJECT_NAME})
+set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
+set(LIBRARY_OUTPUT_PATH  ${CMAKE_BINARY_DIR}/lib)
+set(rtklib_header ${SRC}/rtklib.h)
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
+#set(SOURCES main.cpp 
+#            lib/math/operations.cpp 
+#            lib/math/operations.hpp)
+
+#add_definitions("-Wall -ansi -pedantic -I$(SRC) -DTRACE -lpthread -DENAGLO -DENAQZS -DENAGAL -DNFREQ=3")
+
+#set(CTARGET "-DENAGLO -DENAQZS -DENACMP -DENAGAL -DENAIRN -DNFREQ=5 -DSVR_REUSEADDR")
+add_definitions("-Wall -O3 -ansi -pedantic -I$(SRC) -I.. -DTRACE -DENAGLO -DENAQZS -DENACMP -DENAGAL -DENAIRN -DNFREQ=5 -DSVR_REUSEADDR -g")
+
+##include_directories(${SRC} ${SRC}/rcv)
+##add_library(rtklib SHARED ${SRC}/rcv/test.c)
+
+include_directories(${SRC})
+
+#set_target_properties(rtklib PROPERTIES
+#    PUBLIC_HEADER ${SRC}/rcv/test.h ${SRC}/rtklib.h
+#    VERSION ${PROJECT_VERSION}
+#    SOVERSION 1
+#    OUTPUT_NAME "rtklib"
+#    #XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "Hex_Identity_ID_Goes_Here"
+#)
+
+#pos2kml
+##add_library(convgpx SHARED src/convgpx.c)
+##add_library(convkml SHARED src/convkml.c)
+##add_library(solution SHARED src/solution.c)
+##add_library(geoid SHARED src/geoid.c)
+##add_library(rtkcmn SHARED src/rtkcmn.c)
+
+add_library(pos2kml SHARED src/convgpx.c src/convkml.c src/solution.c src/geoid.c src/rtkcmn.c)
+
+#######set_target_properties(rtklib2 PROPERTIES PREFIX "")
+
+#add_executable(pos2kml app/consapp/pos2kml/pos2kml.c)
+#target_link_libraries(pos2kml convgpx convkml solution geoid rtkcmn solution winmm.lib)
+
+target_link_libraries(pos2kml winmm.lib)
+set_target_properties(
+    pos2kml
+    PROPERTIES
+    PUBLIC_HEADER ${SRC}/rtklib.h
+    VERSION ${PROJECT_VERSION}
+    SOVERSION 1
+    PREFIX ""
+    OUTPUT_NAME "pos2kml"
+    #COMPILE_DEFINITIONS UNIT_TESTING=1
+    #COMPILE_DEFINITIONS IO_TEST=1
+    #COMPILE_DEFINITIONS WIN_DLL=1
+)
+
+add_library(test1 SHARED src/rcv/test.c)
+
+target_link_libraries(test1)
+set_target_properties(
+    pos2kml
+    PROPERTIES
+    PUBLIC_HEADER ${SRC}/rcv/test.h
+    VERSION ${PROJECT_VERSION}
+    SOVERSION 1
+    PREFIX ""
+    OUTPUT_NAME "test1"
+)
+
+add_subdirectory(${SRC}/rcv)
+
+
+
