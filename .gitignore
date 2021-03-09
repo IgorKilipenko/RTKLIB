@@ -10,3 +10,5 @@ Debug_Build
 __history
 __astcache
 build
+.vs
+.vscode
