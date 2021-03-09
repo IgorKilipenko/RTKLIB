@@ -28,6 +28,11 @@
 *           2013/03/28 1.10 rtklib ver.2.4.2
 *           2020/11/30 1.11 rtklib ver.2.4.3 b34
 *-----------------------------------------------------------------------------*/
+
+#if defined(_WIN32) || defined(__WIN32) || defined(__WIN32__) || defined(_WIN64) || defined(__MINGW32__)|| defined(__MINGW64__)
+#define WIN32
+#endif
+
 #ifndef RTKLIB_H
 #define RTKLIB_H
 #include <stdio.h>
@@ -1777,7 +1782,7 @@ EXPORT int gis_read(const char *file, gis_t *gis, int layer);
 EXPORT void gis_free(gis_t *gis);
 
 /* application defined functions ---------------------------------------------*/
-extern int showmsg(const char *format,...);
+/*extern int showmsg(const char *format,...);*/
 extern void settspan(gtime_t ts, gtime_t te);
 extern void settime(gtime_t time);
 

@@ -51,7 +51,7 @@
 
 #define MAXPRCDAYS  100          /* max days of continuous processing */
 #define MAXINFILE   1000         /* max number of input files */
-
+int showmsg(const char *format,...);
 /* constants/global variables ------------------------------------------------*/
 
 static pcvs_t pcvss={0};        /* receiver antenna parameters */
